@@ -43,7 +43,7 @@ while (choice != "0")
             Console.WriteLine("Goodbye!");
             break;
         case "1":
-            //ListProducts();
+            ListProducts();
             break;
         case "2":
             //AddProduct();
@@ -71,4 +71,15 @@ void InitialOptions()
                 2. Add a Product to Inventory
                 3. Delete a Product from Inventory
                 4. Update Product Details");
+}
+
+void ListProducts()
+{
+    Console.WriteLine(@">>>
+                Products Inventory:");
+
+    foreach (Product product in products)
+    {
+        Console.WriteLine($"Name: {product.Name}, Price: {product.Price:C}, Available: {(product.IsAvailable ? "Yes" : "No")}, Type: {productTypes[product.ProductTypeId - 1].Name}");
+    }
 }
