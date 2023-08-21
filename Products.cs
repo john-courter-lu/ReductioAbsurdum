@@ -4,8 +4,7 @@ public class Product
     public decimal Price { get; set; }
     public bool IsAvailable { get; set; }
     public int ProductTypeId { get; set; }
-    
-/* 这是直接用Product method来加Product
+
 
     public Product(string name, decimal price, bool isAvailable, int productTypeId)
     {
@@ -13,9 +12,9 @@ public class Product
         Price = price;
         IsAvailable = isAvailable;
         ProductTypeId = productTypeId;
-    } 
-    
-*/
+    }
+
+
 
 }
 
