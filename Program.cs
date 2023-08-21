@@ -25,9 +25,10 @@ string greeting = @">>>
 Welcome to ReductioAbsurdum
 Your source for magical supplies";
 
+Console.Clear();
 Console.WriteLine(greeting);
-string choice = null;
 
+string choice = null;
 while (choice != "0")
 {
     Console.WriteLine("\nPress any key to enter the main menu...");
@@ -46,7 +47,7 @@ while (choice != "0")
             ListProducts();
             break;
         case "2":
-            //AddProduct();
+            AddProduct();
             break;
         case "3":
             // Implement the DeleteProduct method
@@ -83,3 +84,73 @@ void ListProducts()
         Console.WriteLine($"Name: {product.Name}, Price: {product.Price:C}, Available: {(product.IsAvailable ? "Yes" : "No")}, Type: {productTypes[product.ProductTypeId - 1].Name}");
     }
 }
+
+void AddProduct()
+{
+    Console.Clear();
+
+    Console.Write("Enter product name: ");
+    string name = Console.ReadLine();
+
+    decimal price = 0;
+    while (price <= 0)
+    {
+        Console.Write("Enter product price: ");
+        if (decimal.TryParse(Console.ReadLine(), out price) && price > 0)
+        {
+            break;
+        }
+        Console.WriteLine("Invalid input. Please enter a valid positive price.");
+    }
+
+    bool isAvailable = false;
+    while (true)
+    {
+        Console.Write("Is the product available? (yes/no): ");
+        string availabilityInput = Console.ReadLine().Trim().ToLower();
+        if (availabilityInput == "yes")
+        {
+            isAvailable = true;
+            break;
+        }
+        else if (availabilityInput == "no")
+        {
+            isAvailable = false;
+            break;
+        }
+        else
+        {
+            Console.WriteLine("Invalid input. Please enter 'yes' or 'no'.");
+        }
+    }
+
+    Console.WriteLine("Select a product type:");
+    for (int i = 0; i < productTypes.Count; i++)
+    {
+        Console.WriteLine($"{i + 1}. {productTypes[i].Name}");
+    }
+
+    int selectedProductTypeId = 0;
+    while (selectedProductTypeId < 1 || selectedProductTypeId > productTypes.Count)
+    {
+        Console.Write("Enter the number corresponding to the product type: ");
+        if (int.TryParse(Console.ReadLine(), out selectedProductTypeId) && selectedProductTypeId >= 1 && selectedProductTypeId <= productTypes.Count)
+        {
+            break;
+        }
+        Console.WriteLine("Invalid input. Please enter a valid product type number.");
+    }
+
+    Product newProduct = new Product(name, price, isAvailable, selectedProductTypeId);
+    products.Add(newProduct);
+
+    Console.Clear();
+    Console.WriteLine("Product added successfully!");
+    Console.WriteLine("New Product Details:");
+    Console.WriteLine($"Name: {newProduct.Name}, Price: {newProduct.Price:C}, Available: {(newProduct.IsAvailable ? "Yes" : "No")}, Type: {productTypes[newProduct.ProductTypeId - 1].Name}");
+
+    Console.WriteLine("\nPress any key to continue...");
+    Console.ReadKey();
+    Console.Clear();
+}
+
