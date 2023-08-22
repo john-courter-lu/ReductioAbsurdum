@@ -53,8 +53,7 @@ while (choice != "0")
             DeleteProduct();
             break;
         case "4":
-            // Implement the UpdateProduct method
-            // UpdateProduct();
+            UpdateProduct();
             break;
         default:
             Console.WriteLine($"Choose a valid option from the menu!");
@@ -177,6 +176,103 @@ void DeleteProduct()
     Console.WriteLine("Product deleted successfully!");
     Console.WriteLine("Deleted Product Details:");
     Console.WriteLine($"Name: {productToDelete.Name}, Price: {productToDelete.Price:C}, Available: {(productToDelete.IsAvailable ? "Yes" : "No")}, Type: {productTypes[productToDelete.ProductTypeId - 1].Name}");
+
+    Console.WriteLine("\nPress any key to continue...");
+    Console.ReadKey();
+    Console.Clear();
+}
+
+void UpdateProduct()
+{
+    Console.Clear();
+
+    ListProducts();
+
+    int productIndex = -1;
+    while (productIndex < 0 || productIndex >= products.Count)
+    {
+        Console.Write("\nEnter the number of the product you want to update: ");
+        if (int.TryParse(Console.ReadLine(), out productIndex) && productIndex >= 1 && productIndex <= products.Count)
+        {
+            break;
+        }
+        Console.WriteLine("Invalid input. Please enter a valid product number.");
+    }
+
+    Product productToUpdate = products[productIndex - 1];
+
+    Console.Write($"Updating product: {productToUpdate.Name}\n\n");
+
+    // Update logic similar to PostAPlant method
+    Console.Write("Enter updated product name: ");
+    string name = Console.ReadLine();
+
+    decimal? price = null;
+    while (price == null)
+    {
+        Console.Write("Enter updated product price: ");
+        try
+        {
+            price = decimal.Parse(Console.ReadLine());
+        }
+        catch (FormatException)
+        {
+            Console.WriteLine("Invalid input format. Please enter a valid number.");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"An error occurred: {ex.Message}");
+        }
+    }
+
+    bool isAvailable = false;
+    while (true)
+    {
+        Console.Write("Is the product available? (yes/no): ");
+        string availabilityInput = Console.ReadLine().Trim().ToLower();
+        if (availabilityInput == "yes")
+        {
+            isAvailable = true;
+            break;
+        }
+        else if (availabilityInput == "no")
+        {
+            isAvailable = false;
+            break;
+        }
+        else
+        {
+            Console.WriteLine("Invalid input. Please enter 'yes' or 'no'.");
+        }
+    }
+
+    Console.WriteLine("Select an updated product type:");
+    for (int i = 0; i < productTypes.Count; i++)
+    {
+        Console.WriteLine($"{i + 1}. {productTypes[i].Name}");
+    }
+
+    int updatedProductTypeId = 0;
+    while (updatedProductTypeId < 1 || updatedProductTypeId > productTypes.Count)
+    {
+        Console.Write("Enter the number corresponding to the updated product type: ");
+        if (int.TryParse(Console.ReadLine(), out updatedProductTypeId) && updatedProductTypeId >= 1 && updatedProductTypeId <= productTypes.Count)
+        {
+            break;
+        }
+        Console.WriteLine("Invalid input. Please enter a valid product type number.");
+    }
+
+    // Update product properties
+    productToUpdate.Name = name;
+    productToUpdate.Price = price.Value;
+    productToUpdate.IsAvailable = isAvailable;
+    productToUpdate.ProductTypeId = updatedProductTypeId;
+
+    Console.Clear();
+    Console.WriteLine("Product updated successfully!");
+    Console.WriteLine("Updated Product Details:");
+    Console.WriteLine($"Name: {productToUpdate.Name}, Price: {productToUpdate.Price:C}, Available: {(productToUpdate.IsAvailable ? "Yes" : "No")}, Type: {productTypes[productToUpdate.ProductTypeId - 1].Name}");
 
     Console.WriteLine("\nPress any key to continue...");
     Console.ReadKey();
