@@ -55,6 +55,9 @@ while (choice != "0")
         case "4":
             UpdateProduct();
             break;
+        case "5":
+            LookupProductsByType();
+            break;
         default:
             Console.WriteLine($"Choose a valid option from the menu!");
             break;
@@ -69,7 +72,8 @@ void InitialOptions()
                 1. View All Products
                 2. Add a Product to Inventory
                 3. Delete a Product from Inventory
-                4. Update Product Details");
+                4. Update Product Details
+                5. Lookup Products by Type");
 }
 
 void ListProducts()
@@ -273,6 +277,40 @@ void UpdateProduct()
     Console.WriteLine("Product updated successfully!");
     Console.WriteLine("Updated Product Details:");
     Console.WriteLine($"Name: {productToUpdate.Name}, Price: {productToUpdate.Price:C}, Available: {(productToUpdate.IsAvailable ? "Yes" : "No")}, Type: {productTypes[productToUpdate.ProductTypeId - 1].Name}");
+
+    Console.WriteLine("\nPress any key to continue...");
+    Console.ReadKey();
+    Console.Clear();
+}
+
+void LookupProductsByType()
+{
+    Console.Clear();
+
+    Console.WriteLine("Select a product type:");
+    for (int i = 0; i < productTypes.Count; i++)
+    {
+        Console.WriteLine($"{i + 1}. {productTypes[i].Name}");
+    }
+
+    int selectedProductTypeId = 0;
+    while (selectedProductTypeId < 1 || selectedProductTypeId > productTypes.Count)
+    {
+        Console.Write("Enter the number corresponding to the product type: ");
+        if (int.TryParse(Console.ReadLine(), out selectedProductTypeId) && selectedProductTypeId >= 1 && selectedProductTypeId <= productTypes.Count)
+        {
+            break;
+        }
+        Console.WriteLine("Invalid input. Please enter a valid product type number.");
+    }
+
+    List<Product> productsOfType = products.FindAll(p => p.ProductTypeId == selectedProductTypeId);
+
+    Console.WriteLine($"\nProducts of type: {productTypes[selectedProductTypeId - 1].Name}");
+    foreach (Product product in productsOfType)
+    {
+        Console.WriteLine($"Name: {product.Name}, Price: {product.Price:C}, Available: {(product.IsAvailable ? "Yes" : "No")}");
+    }
 
     Console.WriteLine("\nPress any key to continue...");
     Console.ReadKey();
