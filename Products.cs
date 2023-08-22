@@ -4,14 +4,25 @@ public class Product
     public decimal Price { get; set; }
     public bool IsAvailable { get; set; }
     public int ProductTypeId { get; set; }
+    public DateTime DateStocked { get; set; }
+    // auto-implemented property
+    public int DaysOnShelf //calculated property
+    {
+        get
+        {
+            TimeSpan timeOnShelf = DateTime.Now - DateStocked;
+            return timeOnShelf.Days;
+        }
+    }
 
 
-    public Product(string name, decimal price, bool isAvailable, int productTypeId)
+    public Product(string name, decimal price, bool isAvailable, int productTypeId, DateTime dateStocked)
     {
         Name = name;
         Price = price;
         IsAvailable = isAvailable;
         ProductTypeId = productTypeId;
+        DateStocked = dateStocked;
     }
 
 
