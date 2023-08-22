@@ -50,8 +50,7 @@ while (choice != "0")
             AddProduct();
             break;
         case "3":
-            // Implement the DeleteProduct method
-            // DeleteProduct();
+            DeleteProduct();
             break;
         case "4":
             // Implement the UpdateProduct method
@@ -148,6 +147,36 @@ void AddProduct()
     Console.WriteLine("Product added successfully!");
     Console.WriteLine("New Product Details:");
     Console.WriteLine($"Name: {newProduct.Name}, Price: {newProduct.Price:C}, Available: {(newProduct.IsAvailable ? "Yes" : "No")}, Type: {productTypes[newProduct.ProductTypeId - 1].Name}");
+
+    Console.WriteLine("\nPress any key to continue...");
+    Console.ReadKey();
+    Console.Clear();
+}
+
+void DeleteProduct()
+{
+    Console.Clear();
+
+    ListProducts();
+
+    int productIndex = 0;
+    while (productIndex < 1 || productIndex >= products.Count)
+    {
+        Console.Write("\nEnter the number of the product you want to delete: ");
+        if (int.TryParse(Console.ReadLine(), out productIndex) && productIndex >= 1 && productIndex <= products.Count)
+        {
+            break;
+        }
+        Console.WriteLine("Invalid input. Please enter a valid product number.");
+    }
+
+    Product productToDelete = products[productIndex - 1];
+    products.RemoveAt(productIndex - 1);
+
+    Console.Clear();
+    Console.WriteLine("Product deleted successfully!");
+    Console.WriteLine("Deleted Product Details:");
+    Console.WriteLine($"Name: {productToDelete.Name}, Price: {productToDelete.Price:C}, Available: {(productToDelete.IsAvailable ? "Yes" : "No")}, Type: {productTypes[productToDelete.ProductTypeId - 1].Name}");
 
     Console.WriteLine("\nPress any key to continue...");
     Console.ReadKey();
