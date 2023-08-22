@@ -77,11 +77,11 @@ void InitialOptions()
 void ListProducts()
 {
     Console.WriteLine(@">>>
-                Products Inventory:");
+        Products Inventory:");
 
-    foreach (Product product in products)
+    for (int i = 0; i < products.Count; i++)
     {
-        Console.WriteLine($"Name: {product.Name}, Price: {product.Price:C}, Available: {(product.IsAvailable ? "Yes" : "No")}, Type: {productTypes[product.ProductTypeId - 1].Name}");
+        Console.WriteLine($"{i + 1}. Name: {products[i].Name}, Price: {products[i].Price:C}, Available: {(products[i].IsAvailable ? "Yes" : "No")}, Type: {productTypes[products[i].ProductTypeId - 1].Name}");
     }
 }
 
@@ -153,4 +153,3 @@ void AddProduct()
     Console.ReadKey();
     Console.Clear();
 }
-
